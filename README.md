@@ -6,8 +6,8 @@ This work was done for **Assignment #3** of the **Randomized Algorithms (RA-MIRI
 
 ## 📂 Project Structure
 
-* `src/`: Contains the Python implementations of the algorithms and the synthetic data generator.
-* `experiments/`: Scripts used to generate the tables and plots included in the report.
+* `cardinality_estimation.ipynb`: The complete Jupyter Notebook containing the source code, data generator, and experiment drivers.
+* `data/`: Folder containing the dataset files (e.g., `dracula.txt`, `dracula.dat`).
 * `requirements.txt`: List of Python dependencies.
 
 ## 🚀 Setup & Installation
@@ -19,7 +19,6 @@ This work was done for **Assignment #3** of the **Randomized Algorithms (RA-MIRI
     ```
 
 2.  **Install dependencies:**
-    This project uses `randomhash` for robust hashing and `matplotlib` for plotting.
     ```bash
     pip install -r requirements.txt
     ```
@@ -31,21 +30,15 @@ This work was done for **Assignment #3** of the **Randomized Algorithms (RA-MIRI
 ## 🏃 Usage
 
 ### 1. Download Datasets
-Download the datasets (e.g., `dracula.txt`, `dracula.dat`) from the course link and place them in a folder named `data/` in the root directory.
+Download the datasets (e.g., `dracula.txt`, `dracula.dat`) from the course link and place them in the `data/` folder.
 
-### 2. Run Experiments
-To reproduce the comparison tables and memory impact plots found in the report:
+### 2. Run the Notebook
+Open the notebook `cardinality_estimation.ipynb` using Jupyter Notebook, JupyterLab, or Google Colab.
 
-```bash
-python src/experiments.py
-```
-
-This script will:
-1.  Load `dracula.txt`.
-2.  Compute the true cardinality from `dracula.dat`.
-3.  Run **HyperLogLog** and **Recordinality** (10 trials each).
-4.  Print the comparison table with Mean Estimates and Relative Error.
-5.  Generate and show the Memory vs. Error plots.
+Run all cells to:
+1.  Load the data.
+2.  Execute the **HyperLogLog** and **Recordinality** algorithms (10 trials).
+3.  Generate the comparison tables and the Memory vs. Error impact plots.
 
 ## 🧪 Algorithms Implemented
 
