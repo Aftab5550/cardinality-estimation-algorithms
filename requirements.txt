@@ -1,0 +1,4 @@
+numpy
+matplotlib
+randomhash
+git+https://github.com/jlumbroso/python-random-hash.git
