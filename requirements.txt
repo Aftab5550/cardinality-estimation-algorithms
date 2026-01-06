@@ -1,4 +1,5 @@
 numpy
 matplotlib
-randomhash
+jupyter
+# Installing randomhash directly from git source
 git+https://github.com/jlumbroso/python-random-hash.git
