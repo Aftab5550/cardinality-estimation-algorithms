@@ -1,20 +1,35 @@
 # Cardinality Estimation Algorithms (HLL & Recordinality)
 
-This repository contains the implementation and experimental study of two probabilistic cardinality estimation algorithms: **HyperLogLog** and **Recordinality**. 
+A comparative study and implementation of **HyperLogLog (HLL)**, **Recordinality (REC)**, and **K-Minimum Values (KMV)** for cardinality estimation in data streams. This project evaluates these algorithms on real-world literary datasets (e.g., *Dracula*, *War and Peace*) and synthetic Zipfian streams to assess accuracy, scalability, and robustness to data skew.
 
-This work was done for **Assignment #3** of the **Randomized Algorithms (RA-MIRI)** course.
+## 📂 Repository Structure
 
-## 📂 Project Structure
+```text
+.
+├── data/                       # Contains 16 dataset files (8 .txt books and 8 .dat ground truths)
+│   ├── dracula.txt
+│   ├── dracula.dat
+│   └── ... (other datasets)
+├── cardinality-estimation-algorithms.ipynb  # Main Jupyter Notebook with all code and experiments
+├── requirements.txt            # Python dependencies
+├── LICENSE                     # License file
+└── README.md                   # Project documentation
+```
 
-* `cardinality_estimation.ipynb`: The complete Jupyter Notebook containing the source code, data generator, and experiment drivers.
-* `data/`: Folder containing the dataset files (e.g., `dracula.txt`, `dracula.dat`).
-* `requirements.txt`: List of Python dependencies.
+## 🚀 Overview
 
-## 🚀 Setup & Installation
+Cardinality estimation (counting distinct elements) is a critical problem in Big Data. Storing every unique element requires linear memory $\mathcal{O}(N)$, which is unscalable for massive streams.
+
+This project implements three probabilistic algorithms that use **constant memory** to estimate cardinality with small, predictable error:
+1.  **HyperLogLog (HLL):** Uses harmonic averaging of register ranks (Industry Standard).
+2.  **Recordinality (REC):** Uses order statistics (Record-breaking events).
+3.  **K-Minimum Values (KMV):** Tracks the density of the $k$-smallest hash values (Bonus Implementation).
+
+## 🛠️ Installation & Usage
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/cardinality-estimation-algorithms.git](https://github.com/YOUR_USERNAME/cardinality-estimation-algorithms.git)
+    git clone [https://github.com/Aftab5550/cardinality-estimation-algorithms.git](https://github.com/Aftab5550/cardinality-estimation-algorithms.git)
     cd cardinality-estimation-algorithms
     ```
 
@@ -22,38 +37,38 @@ This work was done for **Assignment #3** of the **Randomized Algorithms (RA-MIRI
     ```bash
     pip install -r requirements.txt
     ```
-    *Note: You may need to install `randomhash` directly from source if not in PyPI:*
-    ```bash
-    pip install git+[https://github.com/jlumbroso/python-random-hash.git](https://github.com/jlumbroso/python-random-hash.git)
-    ```
 
-## 🏃 Usage
+3.  **Run the Notebook:**
+    Open `cardinality-estimation-algorithms.ipynb` in Jupyter Lab or VS Code to reproduce all experiments, graphs, and tables.
 
-### 1. Download Datasets
-Download the datasets (e.g., `dracula.txt`, `dracula.dat`) from the course link and place them in the `data/` folder.
+## 📊 Key Results
 
-### 2. Run the Notebook
-Open the notebook `cardinality_estimation.ipynb` using Jupyter Notebook, JupyterLab, or Google Colab.
+### 1. Comparative Accuracy (Real-World Data)
+Performance across 8 distinct literary works (average of 50 trials).
+* **HLL ($m=1024$):** Consistent error ~2-3%.
+* **REC ($k=128$):** Higher variance ~10-15%.
+* **KMV ($k=128$):** Outperforms REC with same memory ~7%.
 
-Run all cells to:
-1.  Load the data.
-2.  Execute the **HyperLogLog** and **Recordinality** algorithms (10 trials).
-3.  Generate the comparison tables and the Memory vs. Error impact plots.
+| Dataset | True $n$ | HLL Error % | REC Error % | KMV Error % |
+| :--- | :--- | :--- | :--- | :--- |
+| **Dracula** | 9,425 | **3.10%** | 12.38% | 7.50% |
+| **War and Peace** | 17,475 | **2.05%** | 15.28% | 7.72% |
+| **Don Quijote** | 23,034 | **2.57%** | 15.22% | 7.79% |
 
-## 🧪 Algorithms Implemented
+### 2. Robustness to Data Skew (The "Alpha Hypothesis")
+We tested the algorithms on synthetic Zipfian data ($\alpha=0.0$ to $3.0$).
+* **Result:** Accuracy is independent of data distribution. Hashing successfully "whitens" skewed data.
+* **Failure Case:** Disabling the hash function caused **79% error** on skewed data, proving hashing is mathematically essential.
 
-### HyperLogLog (HLL)
-* **Description:** Estimates cardinality using the maximum number of leading zeros in the binary representation of hash values.
-* **Implementation:** Includes bias correction constants $\alpha_m$ as derived by Flajolet et al.
-* **Parameters:** Configurable bit-width $b$ (memory $m = 2^b$).
+### 3. Scalability
+* **HyperLogLog** becomes *more* accurate as cardinality grows (Error drops to ~4% at $n=50k$).
+* **Recordinality** works best for small datasets where the buffer size $k$ covers a large portion of the universe.
 
-### Recordinality (REC)
-* **Description:** Estimates cardinality based on the number of times the set of $k$-smallest (or largest) hash values is updated (records).
-* **Implementation:** Tracks the $k$-largest hash values (mathematically equivalent to $k$-smallest).
-* **Parameters:** Configurable sample size $k$.
+## ⏱️ Experimental Rigor
+The final batch of experiments was executed over **7 hours and 9 minutes**, processing millions of tokens across 50 independent trials per dataset to ensure statistical validity.
 
-## 📚 References
+## 📜 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-1.  **HyperLogLog:** Ph. Flajolet, É. Fusy, O. Gandouet, and F. Meunier. "Hyperloglog: the analysis of a near-optimal cardinality estimation algorithm." *Analysis of Algorithms (AofA)*, 2007.
-2.  **Recordinality:** A. Helmi, J. Lumbroso, C. Martínez, and A. Viola. "Data streams as random permutations: the distinct element problem." *Analysis of Algorithms (AofA)*, 2012.
-3.  **Hash Functions:** J. Lumbroso. `python-random-hash` library. [GitHub Link](https://github.com/jlumbroso/python-random-hash).
+---
+**Author:** [Aftab](https://github.com/Aftab5550)
