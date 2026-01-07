@@ -6,10 +6,9 @@ A comparative study and implementation of **HyperLogLog (HLL)**, **Recordinality
 
 ```text
 .
-├── data/                       # Contains 16 dataset files (8 .txt books and 8 .dat ground truths)
-│   ├── dracula.txt
-│   ├── dracula.dat
-│   └── ... (other datasets)
+├── dracula.txt                 # All the 16 dataset files (8 .txt books and 8 .dat ground truths)
+├── dracula.dat
+├── ... (other datasets)
 ├── cardinality-estimation-algorithms.ipynb  # Main Jupyter Notebook with all code and experiments
 ├── requirements.txt            # Python dependencies
 ├── LICENSE                     # License file
@@ -69,6 +68,3 @@ The final batch of experiments was executed over **7 hours and 9 minutes**, proc
 
 ## 📜 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-**Author:** [Aftab](https://github.com/Aftab5550)
